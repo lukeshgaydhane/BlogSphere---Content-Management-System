@@ -1,12 +1,10 @@
 package com.blog.BlogSphere.posts;
 
-import java.util.List;
-
 public interface PostService {
 
     Post createPost(Post post);
 
-    List<Post> getAllPosts();
+    PostResponse getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir);
 
     Post getPostById(Long id);
 

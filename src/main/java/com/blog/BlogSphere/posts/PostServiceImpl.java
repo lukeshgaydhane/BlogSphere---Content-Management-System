@@ -2,6 +2,10 @@ package com.blog.BlogSphere.posts;
 
 import com.blog.BlogSphere.Exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,10 +23,33 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public List<Post> getAllPosts() {
-        List<Post> allPosts = postRepository.findAll();
-        return allPosts;
+    public PostResponse getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir) {
+
+        // Determine sorting direction
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+        // Create Pageable instance
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+
+        // Fetch paginated data from the repository
+        Page<Post> posts = postRepository.findAll(pageable);
+
+        // Get content for the page
+        List<Post> listOfPosts = posts.getContent();
+
+        // Populate PostResponse object
+        PostResponse postResponse = new PostResponse();
+        postResponse.setContent(listOfPosts);
+        postResponse.setPageNo(posts.getNumber());
+        postResponse.setPageSize(posts.getSize());
+        postResponse.setTotalElements(posts.getTotalElements());
+        postResponse.setTotalPages(posts.getTotalPages());
+        postResponse.setLast(posts.isLast());
+
+        return postResponse;
     }
+
 
     @Override
     public Post getPostById(Long id) {
