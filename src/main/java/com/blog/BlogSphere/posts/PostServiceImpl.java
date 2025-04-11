@@ -1,6 +1,7 @@
 package com.blog.BlogSphere.posts;
 
 import com.blog.BlogSphere.Exception.ResourceNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +16,14 @@ public class PostServiceImpl implements PostService{
 
     @Autowired
     public PostRepository postRepository;
+
+    private ModelMapper mapper;
+
+    public PostServiceImpl(PostRepository postRepository, ModelMapper mapper) {
+        this.postRepository = postRepository;
+        this.mapper = mapper;
+    }
+
 
     @Override
     public Post createPost(Post post) {

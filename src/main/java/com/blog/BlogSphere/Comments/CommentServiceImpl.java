@@ -4,6 +4,7 @@ import com.blog.BlogSphere.Exception.BlogAPIException;
 import com.blog.BlogSphere.Exception.ResourceNotFoundException;
 import com.blog.BlogSphere.posts.PostRepository;
 import com.blog.BlogSphere.posts.Post;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +24,15 @@ public class CommentServiceImpl implements CommentService{
 
     @Autowired
     public PostRepository postRepository;
+
+    private ModelMapper mapper;
+
+    public CommentServiceImpl(CommentRepository commentRepository, PostRepository postRepository, ModelMapper mapper) {
+        this.commentRepository = commentRepository;
+        this.postRepository = postRepository;
+        this.mapper = mapper;
+    }
+
 
     @Override
     public Comment createComment(long postId, Comment comment) {
