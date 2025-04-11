@@ -1,4 +1,4 @@
-package com.blog.BlogSphere.Exception;
+package com.blog.BlogSphere.Configuration;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
