@@ -2,6 +2,8 @@ package com.blog.BlogSphere.posts;
 
 import com.blog.BlogSphere.Comments.Comment;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,12 +20,18 @@ public class Post {
     private Long id;
 
     @Column(name = "title", nullable = false)
+    @NotEmpty
+    @Size(min = 9, message = "Post title should have at least 9 characters")
     private String title;
 
     @Column(name = "description", nullable = false)
+    @NotEmpty
+    @Size(min = 15, message = "Post description should have at least 15 characters")
     private String description;
 
     @Column(name = "content", nullable = false)
+    @NotEmpty
+    @Size(min = 15, message = "Post description should have at least 15 characters")
     private String content;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL,orphanRemoval = true)

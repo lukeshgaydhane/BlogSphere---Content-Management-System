@@ -1,5 +1,6 @@
 package com.blog.BlogSphere.posts;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class PostController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Post> createPost(@RequestBody Post post){
+    public ResponseEntity<Post> createPost(@Valid @RequestBody Post post){
         Post savedPost = postService.createPost(post);
         return new ResponseEntity<>(savedPost, HttpStatus.CREATED);
     }
@@ -37,19 +38,19 @@ public class PostController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Post> getPostById(@PathVariable Long id){
+    public ResponseEntity<Post> getPostById(@PathVariable(name = "id")  Long id){
         Post postById = postService.getPostById(id);
         return new ResponseEntity<>(postById, HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Post> updatePost(@RequestBody Post post, @PathVariable Long id){
+    public ResponseEntity<Post> updatePost(@Valid @RequestBody Post post, @PathVariable(name = "id")  Long id){
         Post updatedPost = postService.updatePost(post, id);
         return new ResponseEntity<>(updatedPost, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deletePost(@PathVariable long id){
+    public ResponseEntity<String> deletePost(@PathVariable(name = "id")  long id){
         postService.deletePost(id);
         return new ResponseEntity<>("Post has been successfully deleted.", HttpStatus.OK);
     }
