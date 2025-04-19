@@ -1,7 +1,10 @@
 package com.blog.BlogSphere.Configuration;
 
+import com.blog.BlogSphere.Roles.Role;
+import com.blog.BlogSphere.Roles.RoleRepository;
 import com.blog.BlogSphere.Users.CustomUserDetailsService;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -33,10 +36,25 @@ public class SecurityConfig {
         return new ModelMapper();
     }
 
+    @Autowired
+    public RoleRepository roleRepository;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+//    @Bean
+//    public void run(String... args) throws Exception {
+//        Role adminRole = new Role();
+//        adminRole.setName("ROLE_ADMIN");
+//        roleRepository.save(adminRole);
+//
+//        Role userRole = new Role();
+//        userRole.setName("ROLE_USER");
+//        roleRepository.save(userRole);
+//    }
+
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
